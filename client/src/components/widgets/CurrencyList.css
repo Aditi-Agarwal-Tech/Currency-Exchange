@@ -1,0 +1,13 @@
+.selected {
+    color: white!important;
+    background-color: teal!important;
+}
+
+.row .dropdown {
+    width: 28px;
+    padding: 0!important;
+    border-radius: 6px;
+    justify-content: center;
+}
+
+  
