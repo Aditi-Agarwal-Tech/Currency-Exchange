@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
 import styled from 'styled-components';
-import './CurrencyList.css';
+import '../../styles/home/CurrencyList.css';
 import dropdownIcon from '../../../src/assets/dropdownIcon.svg'
 import dropdownIconLight from '../../../src/assets/dropdownIconLight.svg'
 
@@ -24,6 +25,14 @@ const CurrencyList = (props) => {
 
     useEffect(() => {
         //TODO - api call to fill currencyList -> setCurrencyList
+        Axios.post("http://localhost:8081/currencyList", {
+            headers: {
+                "x-access-token" : localStorage.getItem("token"),
+            }
+        }).then((response) => {
+            console.log(response);
+            setCurrencyList(response.data.currencyList);
+        })
       }, []);
 
     useEffect(() => {

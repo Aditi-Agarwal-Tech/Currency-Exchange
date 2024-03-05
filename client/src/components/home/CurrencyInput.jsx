@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CurrencyInput.css';
+import '../../styles/home/CurrencyInput.css';
 
 const CurrencyInput = (props) => {
   const [isInputFocused, setIsInputFocused] = useState(false);

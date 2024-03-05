@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import CurrencyInput from './widgets/CurrencyInput';
-import CurrencyList from './widgets/CurrencyList';
-import Topbar from './Topbar';
+import CurrencyInput from './CurrencyInput';
+import CurrencyList from './CurrencyList';
+import Topbar from '../topbar/Topbar';
 
 function Home() {
 
@@ -63,6 +63,18 @@ function Home() {
         navigate("/transactions");
     }
 
+    const getExchangeRate = async () => {
+        Axios.post("http://localhost:8081/exchangerate", {currencyFrom: iHave, currencyTo: iWant}, {
+                headers: {
+                    "x-access-token" : localStorage.getItem("token"),
+                }
+            }).then((response) => {
+                console.log(response);
+                setExchangeRate(response.data.exchangeRate);
+            })
+            setToAmt('');
+    }
+
     useEffect(() => {
         Axios.get("http://localhost:8081").then((res) => {
             if(res.data.valid) {
@@ -79,28 +91,12 @@ function Home() {
 
     useEffect(()=>{
         if(iHave && iWant){
-            Axios.post("http://localhost:8081/exchangerate", {currencyFrom: iHave, currencyTo: iWant}, {
-                headers: {
-                    "x-access-token" : localStorage.getItem("token"),
-                }
-            }).then((response) => {
-                console.log(response);
-                setExchangeRate(response.data.exchangeRate);
-            })
-            setToAmt('');
+            getExchangeRate();
         }
     },[iHave, iWant]);
 
   return (
     <div style={{backgroundColor:"#f7f7f7", height:"100%"}}>
-      {/* <div className="border-bottom h-25 py-2 px-5 d-flex gap-5 justify-content-end px-5">
-        <div>
-            Dark Mode
-        </div>
-        <div>
-            Aditi
-        </div>
-      </div> */}
       <Topbar />
       <div className='mx-5 px-5 my-5'>
         <div className='my-3'>

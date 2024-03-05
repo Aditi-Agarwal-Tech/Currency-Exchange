@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Axios from "axios"
-import Topbar from './Topbar';
-
-const walletData = {data: [
-    {currency:"INR", amount:25000},
-    {currency:"USD", amount:35000},
-    {currency:"NZD", amount:20000},
-    {currency:"EUR", amount:16000},
-    {currency:"INR", amount:25000},
-    {currency:"INR", amount:25000},
-    {currency:"INR", amount:25000}
-]}; 
-
+import Topbar from '../topbar/Topbar';
+import { fetchWalletData } from '../../helpers/api/wallet/walletHelper';
 
 const Wallet = () => {
   const [walletData2, setWalletData2] = useState([{}]);
   const navigate = useNavigate();
 
-  const getData = () => {
-    const body = {
-      userId: localStorage.getItem("userId")
-    };
-    Axios.post("http://localhost:8081/wallet", body, {
-      headers: {
-        "x-access-token": localStorage.getItem("token")
-      },
-    }).then((response) => {
+  const getData = async () => {
+    const userId = localStorage.getItem("userId")
+    await fetchWalletData(userId).then((response) => {
       console.log(response.data)
       setWalletData2(response.data.walletData);
     })

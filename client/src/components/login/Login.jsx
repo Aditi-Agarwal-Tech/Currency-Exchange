@@ -1,36 +1,33 @@
-import login_page_banner from  "../assets/login_page_banner.webp";
+import login_page_banner from  "../../assets/login_page_banner.webp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from 'react'
 import Axios from "axios"
 import { useNavigate } from "react-router-dom";
+import loginHelper from "../../helpers/api/login/loginHelper";
 
 function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   Axios.defaults.withCredentials = true;
 
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault();
     console.log("calling login api")
-    Axios.post("http://localhost:8081/login", {
-      email: email,
-      password: password,
-    }).then((response) => {
+
+    const response = await loginHelper(email, password);
       if(!response.data.auth) {
-        setIsLoggedIn(false);
+
       } else{
-        setIsLoggedIn(true);
         localStorage.setItem("token", response.data.token)
         console.log(response.data.result)
         localStorage.setItem("userId", response.data.result.id)
         console.log(response.data);
         navigate("/");
       }
-    })
+    
   };
 
   return (

@@ -75,6 +75,24 @@ app.post("/wallet", verifyJWT, (req, res) => {
     )
 })
 
+app.post("/currencyList", (req, res) => {
+    console.log("fetching currency list")
+    db.query(
+        "SELECT DISTINCT currencyFrom FROM exchangevalue",
+        (err, result) => {
+            if(err) {
+                console.log(err);
+                res.send({err: err});
+            }
+            if(result) {
+                const currencyList = result.map((item) => item.currencyFrom);
+                console.log(currencyList);
+                res.send({currencyList: currencyList});
+            }
+        }
+    )
+})
+
 app.post("/exchangerate", verifyJWT, (req, res) => {
     const currencyFrom = req.body.currencyFrom;
     const currencyTo = req.body.currencyTo;
@@ -86,8 +104,10 @@ app.post("/exchangerate", verifyJWT, (req, res) => {
                 console.log(err);
                 res.send({err: err});
             }
-            if(result) {
-                res.send({exchangeRate: result[0] ?? 2});
+            if(result.length>0) {
+                res.send({exchangeRate: result[0].multiplicationFactor});
+            } else {
+                res.send({exchangeRate: 1});
             }
         }
     )

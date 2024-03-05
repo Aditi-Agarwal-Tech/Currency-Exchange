@@ -1,6 +1,6 @@
 import React from 'react'
-import Axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { logoutHelper } from '../../helpers/api/logout/logoutHelper';
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -17,9 +17,9 @@ const Topbar = () => {
     navigate("/transactions");
   }
 
-  const handleLogout = () => {
-    Axios.post("http://localhost:8081/logout").then((res) => {
-      if(res.data.status=="success") {
+  const handleLogout = async () => {
+    await logoutHelper().then((res) => {
+      if(res.data.status==="success") {
         navigate("/login");
       }
     });
@@ -29,12 +29,7 @@ const Topbar = () => {
         <div onClick={navigateToHome}>Home</div>
         <div onClick={navigateToWallet}>Wallet</div>
         <div onClick={navigateToTransactions}>Transactions</div>
-        <div>
-            Dark Mode
-        </div>
-        <div onClick={handleLogout}>
-            Aditi
-        </div>
+        <div onClick={handleLogout}>Logout</div>
     </div>
   )
 }
