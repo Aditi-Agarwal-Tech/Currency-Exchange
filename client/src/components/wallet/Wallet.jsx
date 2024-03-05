@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import Axios from "axios"
 import Topbar from '../topbar/Topbar';
 import { fetchWalletData } from '../../helpers/api/wallet/walletHelper';
 
@@ -51,8 +50,8 @@ const Wallet = () => {
                 </tr>
               </thead>
               <tbody>
-                {walletData2.map((item) => {
-                    return <tr><td>{item.currency}</td><td>{item.amount}</td></tr>
+                {walletData2.map((item, index) => {
+                    return <tr key={index}><td>{item.currency}</td><td>{item.amount}</td></tr>
                 })}
               </tbody>
             </table>

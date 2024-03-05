@@ -44,8 +44,8 @@ function Transactions() {
                     </tr>
                 </thead>
                 <tbody style={{}}>
-                    {transactionData2.map((item) => {
-                        return <tr><td>{item.timestamp}</td><td>{item.currencyFrom + " " + item.valueFrom}</td><td>{item.currencyTo + " " + item.valueTo}</td></tr>
+                    {transactionData2.map((item, index) => {
+                        return <tr key={index}><td>{item.timestamp}</td><td>{item.currencyFrom + " " + item.valueFrom}</td><td>{item.currencyTo + " " + item.valueTo}</td></tr>
                     })}
                 </tbody>
                 </table>
