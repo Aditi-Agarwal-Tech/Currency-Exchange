@@ -4,10 +4,8 @@ import React, { useState } from 'react'
 import Axios from "axios"
 import { useNavigate } from "react-router-dom";
 
-
 function Login() {
 
-  const baseURL = process.env.DB_BASEURL || "http://localhost:8081";
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,9 +16,7 @@ function Login() {
   const login = (e) => {
     e.preventDefault();
     console.log("calling login api")
-    console.log("env" + process.env.DB_baseURL)
-    console.log(baseURL+"/login");
-    Axios.post(baseURL+"/login", {
+    Axios.post("http://localhost:8081/login", {
       email: email,
       password: password,
     }).then((response) => {
@@ -36,17 +32,6 @@ function Login() {
       }
     })
   };
-
-  const check = () => {
-    console.log("check clicked")
-    Axios.get("http://localhost:8081/check", {
-      headers: {
-        "x-access-token":  localStorage.getItem("token"),
-      },
-    }).then((response) => {
-      console.log(response)
-    })
-  }
 
   return (
     <div className='container'>
@@ -67,7 +52,6 @@ function Login() {
                 </div>
                 <div className="d-grid">
                     <input type="submit" className="btn btn-lg" style={{ background:"teal",color:"white"}} value="Login" />
-                    {/* <button onClick={check}>Check Authentication</button> */}
                 </div>
             </form>
         </div>
