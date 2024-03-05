@@ -18,6 +18,7 @@ function Login() {
   const login = (e) => {
     e.preventDefault();
     console.log("calling login api")
+    console.log(baseURL+"/login");
     Axios.post(baseURL+"/login", {
       email: email,
       password: password,
