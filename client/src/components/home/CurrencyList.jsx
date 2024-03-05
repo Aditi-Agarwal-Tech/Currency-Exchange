@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-// import styled from 'styled-components';
 import '../../styles/home/CurrencyList.css';
-// import dropdownIcon from '../../../src/assets/dropdownIcon.svg'
 import dropdownIconLight from '../../../src/assets/dropdownIconLight.svg'
 import { StyledSelect } from '../../helpers/utils/currencyListStyles';
+import { fetchCurrencyList } from '../../helpers/api/home/currencyListHelper';
 
 const CurrencyList = (props) => {
-    // const StyledSelect = styled.select`
-    //     appearance: none;
-    //     padding: 8px 32px 8px 8px;
-    //     font-size: 16px;
-    //     border: 1px solid #ccc;
-    //     border-radius: 4px;
-    //     background: url(${dropdownIcon}) no-repeat center center;
-    //     background-size: 16px;
-    //     `;
 
     const [currencyList, setCurrencyList] = useState(['UAH', 'AUD', 'EUR', 'USD', 'NZD', 'CHF', 'VSD', 'OZD', 'LHF']);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -24,16 +14,15 @@ const CurrencyList = (props) => {
     const [containerStyle, setContainerStyle] = useState({});
     const [currency, setCurrency] = useState();
 
-    useEffect(() => {
-        //TODO - api call to fill currencyList -> setCurrencyList
-        Axios.post("http://localhost:8081/currencyList", {
-            headers: {
-                "x-access-token" : localStorage.getItem("token"),
-            }
-        }).then((response) => {
+    const getCurrencyList = async () => {
+        await fetchCurrencyList().then((response) => {
             console.log(response);
             setCurrencyList(response.data.currencyList);
-        })
+        });
+    };
+
+    useEffect(() => {
+        getCurrencyList();
       }, []);
 
     useEffect(() => {
@@ -53,7 +42,7 @@ const CurrencyList = (props) => {
         setSelectedValue(e.target.value);
         const updatedContainerStyle = {
             'width':'100px',
-            'text-align': 'center',
+            textAlign: 'center',
             backgroundPosition : '94% center',
             backgroundColor: 'teal',
             color: 'white',

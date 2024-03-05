@@ -6,6 +6,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import CurrencyInput from './CurrencyInput';
 import CurrencyList from './CurrencyList';
 import Topbar from '../topbar/Topbar';
+import { doRegisterTransaction, fetchExchangeRate, fetchIsSessionActive } from '../../helpers/api/home/homeHelper';
 
 function Home() {
 
@@ -41,22 +42,9 @@ function Home() {
         }
     }
 
-    const registerTransaction = () => {
-        Axios.post(
-            "http://localhost:8081/registerTransaction",
-            {
-                userId: localStorage.getItem("userId"),
-                currencyFrom: iHave,
-                valueFrom: parseFloat(fromAmt),
-                currencyTo: iWant,
-                valueTo: parseFloat(toAmt),
-            },
-            {
-                headers: {
-                    "x-access-token": localStorage.getItem("token")
-                }
-            }
-        )
+    const registerTransaction = async () => {
+        const userId = localStorage.getItem("userId");
+        await doRegisterTransaction(userId, iHave, fromAmt, iWant, toAmt);
     }
 
     const navigateToTransactions = () => {
@@ -64,25 +52,25 @@ function Home() {
     }
 
     const getExchangeRate = async () => {
-        Axios.post("http://localhost:8081/exchangerate", {currencyFrom: iHave, currencyTo: iWant}, {
-                headers: {
-                    "x-access-token" : localStorage.getItem("token"),
-                }
-            }).then((response) => {
-                console.log(response);
-                setExchangeRate(response.data.exchangeRate);
-            })
-            setToAmt('');
+        await fetchExchangeRate(iHave, iWant).then((response) => {
+            console.log(response);
+            setExchangeRate(response.data.exchangeRate);
+        })
+        setToAmt('');
     }
 
-    useEffect(() => {
-        Axios.get("http://localhost:8081").then((res) => {
+    const checkValidUser = async () => {
+        await fetchIsSessionActive().then((res) => {
             if(res.data.valid) {
 
             } else {
                 navigate("/login");
             }
         });
+    }
+
+    useEffect(() => {
+        checkValidUser();
     });
 
     useEffect(() => {
