@@ -26,10 +26,10 @@ app.use(session({
 }))
 
 const db = mysql.createConnection({
-    user: "root",
-    host: "localhost",
-    password: "",
-    database: "currency_exchange"
+    user: process.env.DB_USERNAME || "root",
+    host: process.env.DB_HOST || "localhost",
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_DATABASE || "currency_exchange"
 });
 
 const verifyJWT = (req, res, next) => {
