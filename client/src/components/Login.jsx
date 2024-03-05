@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
 
+  const baseURL = process.env.DB_baseURL || "http://localhost:8081";
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,7 +18,7 @@ function Login() {
   const login = (e) => {
     e.preventDefault();
     console.log("calling login api")
-    Axios.post("http://localhost:8081/login", {
+    Axios.post(baseURL+"/login", {
       email: email,
       password: password,
     }).then((response) => {
