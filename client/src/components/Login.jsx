@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-  const baseURL = process.env.DB_baseURL || "http://localhost:8081";
+  const baseURL = process.env.DB_BASEURL || "http://localhost:8081";
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
