@@ -9,6 +9,7 @@ function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showLoginFailed, setShowLoginFailed] = useState(false);
   const navigate = useNavigate();
 
   Axios.defaults.withCredentials = true;
@@ -19,8 +20,9 @@ function Login() {
 
     const response = await loginHelper(email, password);
       if(!response.data.auth) {
-
+        setShowLoginFailed(true);
       } else{
+        setShowLoginFailed(true);
         localStorage.setItem("token", response.data.token)
         console.log(response.data.result)
         localStorage.setItem("userId", response.data.result.id)
@@ -39,6 +41,7 @@ function Login() {
         <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
             <form onSubmit={login}>
                 <h3 className="d-flex justify-content-start my-4" style={{color:"teal"}}>Log In</h3>
+                {showLoginFailed && <div style={{color: "red"}}>Invalid Login Credentials!!</div>}
                 <div className="form-floating mb-3">
                     <input type="email" id="emailinput" className="form-control form-control-lg" placeholder="Email Address"  onChange={(e) => setEmail(e.target.value)} autoComplete="off"/>
                     <label className="form-label" htmlFor="emailinput">Email Address</label>
