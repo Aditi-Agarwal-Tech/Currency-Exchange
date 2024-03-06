@@ -43,8 +43,10 @@ function Home() {
     }
 
     const registerTransaction = async () => {
-        const userId = localStorage.getItem("userId");
-        await doRegisterTransaction(userId, iHave, fromAmt, iWant, toAmt);
+        if(iHave !== iWant) {
+            const userId = localStorage.getItem("userId");
+            await doRegisterTransaction(userId, iHave, fromAmt, iWant, toAmt);
+        }
     }
 
     const navigateToTransactions = () => {
