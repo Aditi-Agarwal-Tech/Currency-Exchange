@@ -64,7 +64,7 @@ const CurrencyList = (props) => {
         <div className='row' >
             {currencyList.slice(0, 5).map((item,index) => (
                 <div key={index}
-                className={`btn col border ${index === selectedItem ? 'selected' : ''}`}
+                className={`btn col border currency-list-item ${index === selectedItem ? 'selected' : ''}`}
                 onClick={() => setSelect(index)}>
                     {item}
                 </div>
@@ -73,7 +73,7 @@ const CurrencyList = (props) => {
                 <StyledSelect
                         value={selectedValue}
                         onChange={handleSelectChange}
-                        className="btn border dropdown d-flex align-items-center"
+                        className="btn border dropdown d-flex align-items-center currency-list-item"
                         style={containerStyle}
                 >
                     <option value="" hidden></option>
